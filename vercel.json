@@ -1,6 +1,40 @@
 {
-  "public": true,
+  "buildCommand": "yarn build:app:docker",
+  "outputDirectory": "excalidraw-app/build",
+  "installCommand": "yarn install",
+  "github": {
+    "silent": true
+  },
+  "redirects": [
+    {
+      "source": "/webex/:match*",
+      "destination": "https://for-webex.excalidraw.com"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "vscode.excalidraw.com"
+        }
+      ],
+      "destination": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor"
+    }
+  ],
   "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://excalidraw.com"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
@@ -41,31 +75,8 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
         }
       ]
     }
-  ],
-  "redirects": [
-    {
-      "source": "/webex/:match*",
-      "destination": "https://for-webex.excalidraw.com"
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "vscode.excalidraw.com"
-        }
-      ],
-      "destination": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor"
-    }
-  ],
-  "buildCommand": "yarn build:app:docker",
-  "outputDirectory": "excalidraw-app/build",
-  "installCommand": "yarn install"
+  ]
 }
